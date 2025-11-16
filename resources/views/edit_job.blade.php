@@ -29,9 +29,9 @@
             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
             @enderror
         </div>
-        <div class="flex items-center gap-5">
 
-            <div class="mb-4 w-1/3">
+        <div class="flex items-center gap-5 mb-4">
+            <div class="w-1/3">
                 <label for="applicationDate" class="block text-gray-700 font-medium mb-1">Tanggal Lamaran</label>
                 <input type="date" id="applicationDate" name="applicationDate" class="w-full p-2 border rounded-md"
                     value="{{ $job->applicationDate }}">
@@ -39,11 +39,28 @@
                 <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="mb-4 w-1/3">
+            <div class="w-1/3">
                 <label for="applicationPlatform" class="block text-gray-700 font-medium mb-1">Platform Lamaran</label>
                 <input type="text" id="applicationPlatform" name="applicationPlatform"
                     class="w-full p-2 border rounded-md" value="{{ $job->applicationPlatform }}">
                 @error('applicationPlatform')
+                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="w-1/3">
+                <label for="status">
+                    Status
+                </label>
+                <select id="status" name="status" class="w-full p-2 border rounded-md">
+                    <option value="Applied" {{ $job->status == 'Applied' ? 'selected' : '' }}>Applied</option>
+                    <option value="Skilltest" {{ $job->status == 'Skilltest' ? 'selected' : '' }}>Skilltest</option>
+                    <option value="Interview" {{ $job->status == 'Interview' ? 'selected' : '' }}>Interview</option>
+                    <option value="Offered" {{ $job->status == 'Offered' ? 'selected' : '' }}>Offered</option>
+                    <option value="Rejected" {{ $job->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="Ghosted" {{ $job->status == 'Ghosted' ? 'selected' : '' }}>Ghosted</option>
+
+                </select>
+                @error('status')
                 <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>

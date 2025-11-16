@@ -55,6 +55,7 @@ class JobAppController extends Controller
             'companyName' => 'required|string|max:255',
             'applicationPlatform' => 'required|string|max:255',
             'applicationDate' => 'required|date',
+            'status' => 'required|string|max:50',
             'position' => 'required|string|max:255',
             'notes' => 'nullable|string',
         ],[
@@ -74,6 +75,7 @@ class JobAppController extends Controller
     public function delete($id)
     {
         $job = JobsApplication::findOrFail($id);
+        // dd($job);
         $job->delete();
         return redirect()->route('home')->with('message', 'Job application deleted successfully.');
     }
