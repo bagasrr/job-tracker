@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JobsApplication; 
+use App\Models\JobsApplication;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,10 @@ class HomeController extends Controller
         $jobs = JobsApplication::latest()->get();
 
         // Mengirim data 'jobs' ke view 'home'
-        return view('home', compact('jobs'));
+         return Inertia::render('Home/Index', [
+            'jobs' => $jobs,
+        ]);
+        // return view('home', compact('jobs'));
     }
 
     public function create_job()
