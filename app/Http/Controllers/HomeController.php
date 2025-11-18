@@ -14,7 +14,7 @@ class HomeController extends Controller
         $jobs = JobsApplication::latest()->get();
 
         // Mengirim data 'jobs' ke view 'home'
-         return Inertia::render('Home/Index', [
+         return Inertia::render('Home', [
             'jobs' => $jobs,
         ]);
         // return view('home', compact('jobs'));
