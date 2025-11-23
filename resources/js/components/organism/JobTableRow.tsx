@@ -1,9 +1,11 @@
+import { Job } from '@/types/table';
 import { useState } from 'react';
 import Button from '../atoms/Button';
+import TableData from '../atoms/TableData';
 import DeleteConfirmationModal from '../molecules/DeleteConfirmationModal';
 import StatusBadge from '../molecules/StatusBadge';
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string | Date | null | undefined) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('id-ID', {
         day: '2-digit',
@@ -11,8 +13,17 @@ const formatDate = (dateString) => {
         year: 'numeric',
     });
 };
+// const formattedDate = formatDate({ dateString: new Date(job.applicationDate) });
 
-const JobTableRow = ({ job, onDelete, rowNumber }) => {
+const JobTableRow = ({
+    job,
+    onDelete,
+    rowNumber,
+}: {
+    job: Job;
+    onDelete: (id: number) => void;
+    rowNumber: number;
+}) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleDeleteConfirm = () => {
@@ -21,73 +32,78 @@ const JobTableRow = ({ job, onDelete, rowNumber }) => {
     };
 
     return (
-        <tr className="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50">
-            {/* 1. Sticky No: Background Lime Soft */}
-            <td className="sticky left-0 z-10 w-10 border-r border-gray-200 bg-lime-50 text-center text-sm whitespace-nowrap text-gray-500 dark:border-gray-700 dark:bg-lime-900/20 dark:text-gray-400">
-                {/* Logic Index Number */}
+        <tr className="group">
+            <TableData className="sticky left-0 z-10 w-10">
                 {rowNumber}
-            </td>
+            </TableData>
 
-            {/* 2. Sticky Company Name: RED SIDE (Rose Soft) */}
-            {/* Menggunakan rose-50 untuk light, dan rose-950 untuk dark agar solid menutupi teks yang scroll di bawahnya */}
-            <td className="sticky left-10 z-10 w-[250px] border-r border-gray-200 bg-rose-50 px-6 py-4 whitespace-nowrap shadow-sm dark:border-gray-700 dark:bg-rose-950">
-                <div className="text-sm font-medium text-wrap text-gray-900 dark:text-white">
+            <TableData className="sticky left-[6.6%] z-10 max-w-[200px] min-w-[200px] !text-left !whitespace-normal">
+                <div className="font-medium text-gray-900 dark:text-white">
                     {job.companyName}
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                     {job.applicationPlatform}
                 </div>
-            </td>
-
-            {/* Kolom Biasa */}
-            <td className="bg-white px-6 whitespace-nowrap dark:bg-gray-800">
-                <div className="text-sm text-gray-900 dark:text-gray-200">
-                    {job.position}
-                </div>
-            </td>
-
-            <td className="w-full bg-white px-6 py-4 whitespace-nowrap dark:bg-gray-800">
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {formatDate(job.applicationDate)}
-                </div>
-            </td>
-
-            <td className="bg-white px-6 py-4 whitespace-nowrap dark:bg-gray-800">
+            </TableData>
+            <TableData>{job.position}</TableData>
+            <TableData>{formatDate(job.applicationDate)}</TableData>
+            <TableData>
                 <StatusBadge status={job.status} />
-            </td>
-
-            <td className="bg-white dark:bg-gray-800">
+            </TableData>
+            <TableData>
                 <div className="scrollbar-thin max-h-[80px] max-w-[120px] min-w-[100px] overflow-auto text-sm text-wrap text-gray-900 dark:text-gray-300">
                     {job.notes}
                 </div>
-            </td>
-
-            <td className="bg-white px-6 py-4 whitespace-nowrap dark:bg-gray-800">
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {formatDate(job.updated_at)}
-                </div>
-            </td>
-
-            {/* Actions */}
-            <td className="flex flex-wrap justify-start gap-3 bg-white px-4 py-4 text-right text-sm font-medium whitespace-nowrap dark:bg-gray-800">
+            </TableData>
+            <TableData>{formatDate(job.updated_at)}</TableData>
+            <TableData className="flex flex-col items-center justify-evenly gap-2">
                 <Button
                     href={`/jobs/${job.id_jobs}/edit`}
-                    className="bg-lime-500 text-white hover:bg-lime-600"
+                    className="border border-green-800 text-green-300 hover:bg-green-100 hover:text-green-800 dark:hover:bg-green-600 dark:hover:text-green-200"
                 >
-                    ✏️
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-pen"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                    </svg>
                 </Button>
                 <Button
                     href={`/jobs/${job.id_jobs}`}
-                    className="bg-indigo-600 text-white hover:bg-indigo-700"
+                    className="border border-indigo-500 text-indigo-400 hover:bg-indigo-400 hover:text-white dark:border-indigo-400 dark:text-indigo-400 dark:hover:bg-indigo-600 dark:hover:text-white"
                 >
-                    📄
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-card-text"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                        <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
+                    </svg>
                 </Button>
                 <div className="inline">
                     <Button
                         onClick={() => setShowDeleteModal(true)}
-                        className="bg-rose-500 text-white hover:bg-rose-600"
+                        className="cursor-pointer border border-rose-600 text-rose-400 hover:bg-rose-100 hover:text-rose-800 dark:border-rose-600 dark:text-rose-400 dark:hover:bg-rose-600 dark:hover:text-rose-200"
                     >
-                        🗑️
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-trash"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                        </svg>
                     </Button>
                     <DeleteConfirmationModal
                         isOpen={showDeleteModal}
@@ -97,7 +113,7 @@ const JobTableRow = ({ job, onDelete, rowNumber }) => {
                         companyName={job.companyName}
                     />
                 </div>
-            </td>
+            </TableData>
         </tr>
     );
 };

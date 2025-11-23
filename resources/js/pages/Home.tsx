@@ -1,4 +1,3 @@
-import { NavMain } from '@/components/nav-main';
 import JobTable from '@/components/organism/JobTable';
 
 interface IndexProps {
@@ -33,7 +32,7 @@ const HomePage = ({ jobs }: IndexProps) => {
     };
     return (
         <div className="container mx-auto flex flex-col gap-5 py-10">
-            <NavMain items={navbarItems} />
+            {/* <NavMain items={navbarItems} /> */}
             <h1 className="text-xl font-bold">Selamat Datang ...</h1>
             <JobTable jobs={jobs} onDeleteJob={handleDelete} />
         </div>

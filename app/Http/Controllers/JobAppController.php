@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JobsApplication;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class JobAppController extends Controller
 {
@@ -40,6 +41,7 @@ class JobAppController extends Controller
     {
         $job = JobsApplication::findOrFail($id);
         // dd($job);
+       
         return view('job_details', compact('job'));
     }
 

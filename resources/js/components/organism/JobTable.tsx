@@ -1,70 +1,40 @@
+import { Job } from '@/types/table';
+import JobTableHead from '../atoms/JobTableHead';
 import JobTableRow from './JobTableRow';
 
-const JobTable = ({ jobs, onDeleteJob }) => {
-    // Style Class Variables untuk Header agar rapi
-    const thBaseClass =
-        'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider';
-    const stickyHeaderClass = 'sticky z-20'; // Z-index lebih tinggi dari row body
+interface JobTableProps {
+    jobs: Job[];
+    onDeleteJob: (id: number) => void;
+}
 
+const JobTable = ({ jobs, onDeleteJob }: JobTableProps) => {
     return (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
-            <div className="overflow-x-auto">
+            <div>
+                <search className="bg-white text-black">Ini Pencarian</search>
+            </div>
+
+            <div className="w-full overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             {/* Sticky No - Header */}
-                            <th
-                                scope="col"
-                                className={`sticky left-0 z-20 w-10 border-b bg-lime-50 p-2 text-center text-gray-500 dark:border-gray-700 dark:bg-lime-900/40 dark:text-gray-300`}
-                            >
-                                No
-                            </th>
 
-                            {/* Sticky Company Name - Header (RED SIDE) */}
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} sticky left-10 z-20 w-[250px] border-b border-gray-200 bg-rose-50 text-gray-500 shadow-sm dark:border-gray-700 dark:bg-rose-950 dark:text-gray-300`}
-                            >
+                            <JobTableHead className="sticky left-0 z-20">
+                                No
+                            </JobTableHead>
+
+                            <JobTableHead className="sticky left-[6.6%] z-20 w-16">
                                 Company Name
-                            </th>
+                            </JobTableHead>
 
                             {/* Standard Headers */}
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} text-gray-500 dark:text-gray-400`}
-                            >
-                                Position
-                            </th>
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} w-full text-gray-500 dark:text-gray-400`}
-                            >
-                                Application Date
-                            </th>
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} text-gray-500 dark:text-gray-400`}
-                            >
-                                Status
-                            </th>
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} text-gray-500 dark:text-gray-400`}
-                            >
-                                Notes
-                            </th>
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} text-gray-500 dark:text-gray-400`}
-                            >
-                                Last Updated
-                            </th>
-                            <th
-                                scope="col"
-                                className={`${thBaseClass} text-gray-500 dark:text-gray-400`}
-                            >
-                                Action
-                            </th>
+                            <JobTableHead>Position</JobTableHead>
+                            <JobTableHead>Application Date</JobTableHead>
+                            <JobTableHead>Status</JobTableHead>
+                            <JobTableHead>Notes</JobTableHead>
+                            <JobTableHead>Last Updated</JobTableHead>
+                            <JobTableHead>Action</JobTableHead>
                         </tr>
                     </thead>
 
@@ -90,7 +60,7 @@ const JobTable = ({ jobs, onDeleteJob }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan="8"
+                                    colSpan={8}
                                     className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400"
                                 >
                                     <div className="flex flex-col items-center justify-center">
