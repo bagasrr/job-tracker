@@ -36,7 +36,6 @@ const JobTableRow = ({
             <TableData className="sticky left-0 z-10 w-10">
                 {rowNumber}
             </TableData>
-
             <TableData className="sticky left-[6.6%] z-10 max-w-[200px] min-w-[200px] !text-left !whitespace-normal">
                 <div className="font-medium text-gray-900 dark:text-white">
                     {job.companyName}
