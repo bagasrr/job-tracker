@@ -1,6 +1,7 @@
 import { Job } from '@/types/table';
 import Button from '../atoms/Button';
 import JobTableHead from '../atoms/JobTableHead';
+import Toast from '../atoms/toast';
 import JobTableRow from './JobTableRow';
 
 interface JobTableProps {
@@ -13,7 +14,7 @@ const JobTable = ({ jobs, onDeleteJob }: JobTableProps) => {
         <div className="flex flex-col gap-5">
             <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:justify-between">
                 <Button
-                    className="text-md flex w-full items-center gap-2 rounded-lg bg-green-600 px-5 py-2 text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 md:w-auto dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-green-900"
+                    className="flex w-full items-center gap-2 rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 md:w-auto dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-green-900"
                     href="/add-job"
                 >
                     <svg
@@ -61,6 +62,7 @@ const JobTable = ({ jobs, onDeleteJob }: JobTableProps) => {
                     </Button>
                 </div>
             </div>
+            <Toast />
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
                 <div className="w-full overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

@@ -51,14 +51,14 @@ const JobTableRow = ({
             </TableData>
             <TableData>
                 <div className="scrollbar-thin max-h-[80px] max-w-[120px] min-w-[100px] overflow-auto text-sm text-wrap text-gray-900 dark:text-gray-300">
-                    {job.notes}
+                    {job.notes ? job.notes : '-'}
                 </div>
             </TableData>
             <TableData>{formatDate(job.updated_at)}</TableData>
             <TableData className="flex flex-col items-center justify-evenly gap-2">
                 <Button
                     href={`/jobs/${job.id_jobs}/edit`}
-                    className="border border-green-800 text-green-300 hover:bg-green-100 hover:text-green-800 dark:hover:bg-green-600 dark:hover:text-green-200"
+                    className="border border-green-800 bg-green-700 text-green-100 hover:bg-green-500 dark:bg-green-100/0 dark:text-green-300 dark:hover:bg-green-600 dark:hover:text-green-200"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ const JobTableRow = ({
                 </Button>
                 <Button
                     href={`/jobs/${job.id_jobs}`}
-                    className="border border-indigo-500 text-indigo-400 hover:bg-indigo-400 hover:text-white dark:border-indigo-400 dark:text-indigo-400 dark:hover:bg-indigo-600 dark:hover:text-white"
+                    className="border border-indigo-800 bg-indigo-700 text-indigo-200 hover:bg-indigo-500 hover:text-white dark:border-indigo-400 dark:bg-indigo-50/0 dark:text-indigo-400 dark:hover:bg-indigo-600 dark:hover:text-white"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const JobTableRow = ({
                 <div className="inline">
                     <Button
                         onClick={() => setShowDeleteModal(true)}
-                        className="cursor-pointer border border-rose-600 text-rose-400 hover:bg-rose-100 hover:text-rose-800 dark:border-rose-600 dark:text-rose-400 dark:hover:bg-rose-600 dark:hover:text-rose-200"
+                        className="cursor-pointer border border-rose-600 bg-rose-700 text-rose-100 hover:bg-rose-500 dark:border-rose-600 dark:bg-rose-50/0 dark:text-rose-400 dark:hover:bg-rose-600 dark:hover:text-rose-200"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
