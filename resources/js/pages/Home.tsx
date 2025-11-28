@@ -1,6 +1,10 @@
 import JobTable from '@/components/organism/JobTable';
 
 interface IndexProps {
+    // 1. Tambahkan definisi tipe data untuk filters disini
+    filters: {
+        search: string;
+    };
     jobs: {
         companyName: string;
         position: string;
@@ -18,23 +22,34 @@ interface IndexProps {
     }[];
 }
 
-const HomePage = ({ jobs }: IndexProps) => {
+// 2. Tangkap 'filters' di dalam parameter fungsi (destructuring)
+const HomePage = ({ jobs, filters }: IndexProps) => {
     const navbarItems = [
         { title: 'Dashboard', href: '/dashboard', icon: null },
         { title: 'Jobs', href: '/jobs', icon: null },
         { title: 'Reports', href: '/reports', icon: null },
     ];
-    console.log('Ini Jobs yang gw apply', jobs);
+
+    // Cek di console apakah filters masuk
+    console.log('Jobs Gwh :', jobs);
+    console.log('Filters dari Laravel:', filters);
+
     const handleDelete = (id: number) => {
         console.log('Hapus job dengan ID:', id);
         // Logika hit API delete di sini
-        // axios.delete(`/jobs/${id}`)...
     };
+
     return (
         <div className="container mx-auto flex flex-col gap-5 py-10">
             {/* <NavMain items={navbarItems} /> */}
             <h1 className="text-xl font-bold">Selamat Datang ...</h1>
-            <JobTable jobs={jobs} onDeleteJob={handleDelete} />
+
+            {/* 3. Sekarang 'filters' sudah ada isinya, aman untuk dikirim ke anak */}
+            <JobTable
+                jobs={jobs.data}
+                onDeleteJob={handleDelete}
+                filters={filters}
+            />
         </div>
     );
 };

@@ -26,7 +26,7 @@ export default function Toast() {
         // TypeScript sekarang tahu bahwa flash.message itu string | undefined
         if (flash.message) {
             setVisible(true);
-            const timer = setTimeout(() => setVisible(false), 3000);
+            const timer = setTimeout(() => setVisible(false), 100000);
             return () => clearTimeout(timer);
         }
     }, [flash]);
@@ -36,7 +36,7 @@ export default function Toast() {
     return (
         <div className="fixed top-4 right-4 z-50 w-full max-w-sm">
             <div
-                className={`/* Light Mode */ /* Dark Mode */ flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm transition-all duration-300 dark:border-green-800 dark:bg-green-900/30 dark:text-green-200`}
+                className={`flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm transition-all duration-300 dark:border-green-800 dark:bg-green-900/30 dark:text-green-200`}
             >
                 <div className="flex items-center gap-3">
                     <CheckCircleIcon className="h-5 w-5 text-green-500 dark:text-green-400" />

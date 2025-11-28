@@ -1,20 +1,46 @@
 import { Job } from '@/types/table';
+import { router } from '@inertiajs/react';
+import { X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Button from '../atoms/Button';
 import JobTableHead from '../atoms/JobTableHead';
-import Toast from '../atoms/toast';
+import Toast from '../atoms/Toast';
 import JobTableRow from './JobTableRow';
 
 interface JobTableProps {
     jobs: Job[];
     onDeleteJob: (id: number) => void;
+    filters?: {
+        search: string;
+    };
 }
 
-const JobTable = ({ jobs, onDeleteJob }: JobTableProps) => {
+const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
+    const [search, setSearch] = useState(filters?.search || '');
+    useEffect(() => {
+        const currentSearch = search || '';
+        const serverSeacrh = filters?.search || '';
+        if (currentSearch === serverSeacrh) return;
+
+        const delayDebouncefn = setTimeout(() => {
+            router.get(
+                '/',
+                { search: search || undefined },
+                {
+                    preserveState: true,
+                    replace: true,
+                },
+            );
+        }, 500);
+
+        return () => clearTimeout(delayDebouncefn);
+    }, [search, filters]);
+
     return (
         <div className="flex flex-col gap-5">
             <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:justify-between">
                 <Button
-                    className="flex w-full items-center gap-2 rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 md:w-auto dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-green-900"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 focus:outline-none md:w-auto dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                     href="/add-job"
                 >
                     <svg
@@ -30,36 +56,37 @@ const JobTable = ({ jobs, onDeleteJob }: JobTableProps) => {
                     </svg>
                     Tambah Lamaran Baru
                 </Button>
-                <div className="flex items-center gap-5">
-                    <div className="relative w-full md:w-[300px]">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <svg
-                                className="h-4 w-4 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                                />
-                            </svg>
-                        </div>
+                <div className="relative w-full md:w-[300px]">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center justify-between pl-3">
+                        <svg
+                            className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 20"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                            />
+                        </svg>
+                    </div>
+                    <div className="relative">
                         <input
                             type="text"
                             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-indigo-500 dark:focus:ring-indigo-500"
                             placeholder="Cari posisi atau perusahaan..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <X
+                            className={`${search ? 'cursor-pointer hover:text-slate-200' : 'cursor-not-allowed'} absolute top-2 right-2 text-slate-400`}
+                            onClick={() => setSearch('')}
                         />
                     </div>
-
-                    {/* Button */}
-                    <Button className="w-full rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 focus:outline-none md:w-auto dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
-                        Search
-                    </Button>
                 </div>
             </div>
             <Toast />
