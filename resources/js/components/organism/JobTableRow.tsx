@@ -1,6 +1,7 @@
 import { Job } from '@/types/table';
 import { useState } from 'react';
 import Button from '../atoms/Button';
+import HighlightText from '../atoms/HighlightText';
 import TableData from '../atoms/TableData';
 import DeleteConfirmationModal from '../molecules/DeleteConfirmationModal';
 import StatusBadge from '../molecules/StatusBadge';
@@ -19,10 +20,12 @@ const JobTableRow = ({
     job,
     onDelete,
     rowNumber,
+    searchKeyword,
 }: {
     job: Job;
     onDelete: (id: number) => void;
     rowNumber: number;
+    searchKeyword: string;
 }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -38,13 +41,18 @@ const JobTableRow = ({
             </TableData>
             <TableData className="sticky left-[6.6%] z-10 max-w-[200px] min-w-[200px] !text-left !whitespace-normal">
                 <div className="font-medium text-gray-900 dark:text-white">
-                    {job.companyName}
+                    <HighlightText
+                        text={job.companyName}
+                        highlight={searchKeyword}
+                    />
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                     {job.applicationPlatform}
                 </div>
             </TableData>
-            <TableData>{job.position}</TableData>
+            <TableData>
+                <HighlightText text={job.position} highlight={searchKeyword} />
+            </TableData>
             <TableData>{formatDate(job.applicationDate)}</TableData>
             <TableData>
                 <StatusBadge status={job.status} />

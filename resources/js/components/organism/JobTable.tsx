@@ -131,6 +131,7 @@ const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
                                             job={job}
                                             rowNumber={number} // <--- Kirim nomor ke anak
                                             onDelete={onDeleteJob}
+                                            searchKeyword={search}
                                         />
                                     );
                                 })

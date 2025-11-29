@@ -26,7 +26,7 @@ export default function Toast() {
         // TypeScript sekarang tahu bahwa flash.message itu string | undefined
         if (flash.message) {
             setVisible(true);
-            const timer = setTimeout(() => setVisible(false), 100000);
+            const timer = setTimeout(() => setVisible(false), 5000);
             return () => clearTimeout(timer);
         }
     }, [flash]);
@@ -51,7 +51,7 @@ export default function Toast() {
                     onClick={() => setVisible(false)}
                     className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200"
                 >
-                    <X className="h-5 w-5" />
+                    <X className="h-5 w-5 cursor-pointer" />
                 </button>
             </div>
         </div>
