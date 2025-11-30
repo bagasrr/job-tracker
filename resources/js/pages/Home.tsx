@@ -19,7 +19,7 @@ interface IndexProps {
         statusUpdateDate: Date | null;
         deleted_at: Date | null;
         user_id: number;
-    }[];
+    };
 }
 
 // 2. Tangkap 'filters' di dalam parameter fungsi (destructuring)
@@ -40,7 +40,7 @@ const HomePage = ({ jobs, filters }: IndexProps) => {
     };
 
     return (
-        <div className="container mx-auto flex flex-col gap-5 py-10">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 lg:px-8">
             {/* <NavMain items={navbarItems} /> */}
             <h1 className="text-xl font-bold">Selamat Datang ...</h1>
 

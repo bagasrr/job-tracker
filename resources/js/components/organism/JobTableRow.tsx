@@ -36,10 +36,10 @@ const JobTableRow = ({
 
     return (
         <tr className="group">
-            <TableData className="sticky left-0 z-10 w-10">
+            <td className="sticky left-0 max-w-[40px] min-w-[40px] bg-white p-5 text-center text-sm whitespace-nowrap text-gray-500 transition-colors duration-200 group-hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:group-hover:bg-gray-700">
                 {rowNumber}
-            </TableData>
-            <TableData className="sticky left-[6.6%] z-10 max-w-[200px] min-w-[200px] !text-left !whitespace-normal">
+            </td>
+            <TableData className="sticky left-0 max-w-[200px] min-w-[200px] !text-left !whitespace-normal md:left-[40px]">
                 <div className="font-medium text-gray-900 dark:text-white">
                     <HighlightText
                         text={job.companyName}

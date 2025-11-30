@@ -91,27 +91,39 @@ const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
             </div>
             <Toast />
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
-                <div className="w-full overflow-x-auto">
+                <div className="max-h-[75dvh] w-full overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-700">
+                        <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-700">
                             <tr>
                                 {/* Sticky No - Header */}
 
-                                <JobTableHead className="sticky left-0 z-20">
-                                    No
-                                </JobTableHead>
+                                <th className="sticky top-0 left-0 z-30 w-14 bg-slate-200 px-2 text-center font-medium tracking-wider text-gray-500 uppercase shadow-sm dark:bg-gray-700 dark:text-gray-400">
+                                    #
+                                </th>
 
-                                <JobTableHead className="sticky left-[6.6%] z-20 w-16">
+                                <JobTableHead className="left-0 z-30 w-16 md:left-[40px]">
                                     Company Name
                                 </JobTableHead>
 
                                 {/* Standard Headers */}
-                                <JobTableHead>Position</JobTableHead>
-                                <JobTableHead>Application Date</JobTableHead>
-                                <JobTableHead>Status</JobTableHead>
-                                <JobTableHead>Notes</JobTableHead>
-                                <JobTableHead>Last Updated</JobTableHead>
-                                <JobTableHead>Action</JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Position
+                                </JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Application Date
+                                </JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Status
+                                </JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Notes
+                                </JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Last Updated
+                                </JobTableHead>
+                                <JobTableHead className="z-10">
+                                    Action
+                                </JobTableHead>
                             </tr>
                         </thead>
 

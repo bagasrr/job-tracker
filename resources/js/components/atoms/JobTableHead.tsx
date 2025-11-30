@@ -11,7 +11,7 @@ const JobTableHead = ({
     return (
         <th
             scope="col"
-            className={`${thBaseClass} ${className} w-full bg-slate-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400`}
+            className={`${thBaseClass} ${className} sticky top-0 w-full bg-slate-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400`}
         >
             {children}
         </th>
