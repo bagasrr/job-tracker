@@ -30,6 +30,7 @@ interface IndexProps {
         Ghosted: number;
         Hired: number;
         SkillTest: number;
+        Total: number;
     };
 }
 
@@ -38,7 +39,7 @@ const HomePage = ({ jobs, filters, stats }: IndexProps) => {
     // Cek di console apakah filters masuk
     // console.log('Jobs Gwh :', jobs);
     // console.log('Filters dari Laravel:', filters);
-    // console.info('Stats dari Laravel:', stats);
+    console.info('Stats dari Laravel:', stats);
 
     const handleDelete = (id: number) => {
         console.log('Hapus job dengan ID:', id);
@@ -65,13 +66,7 @@ const HomePage = ({ jobs, filters, stats }: IndexProps) => {
                     </div>
 
                     <p className="mx-auto mt-4 text-3xl font-semibold text-slate-200">
-                        {stats.Applied +
-                            stats.Interview +
-                            stats.Offered +
-                            stats.Rejected +
-                            stats.Ghosted +
-                            stats.Hired +
-                            stats.SkillTest}
+                        {stats.Total}
                     </p>
                 </div>
             </div>

@@ -48,9 +48,9 @@ const JobTableRow = ({
                     />
                 </div>
             </TableData>
-            <TableData>
+            <td className="min-w-[250px] bg-white p-5 text-sm text-gray-500 transition-colors duration-200 group-hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:group-hover:bg-gray-700">
                 <HighlightText text={job.position} highlight={searchKeyword} />
-            </TableData>
+            </td>
             <TableData>{formatDate(job.applicationDate)}</TableData>
             <TableData className="text-center">
                 <StatusBadge status={job.status} />
