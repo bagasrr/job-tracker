@@ -29,6 +29,7 @@ const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
                 {
                     preserveState: true,
                     replace: true,
+                    only: ['jobs', 'filters'],
                 },
             );
         }, 500);

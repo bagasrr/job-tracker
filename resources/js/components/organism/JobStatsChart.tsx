@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
     Bar,
     BarChart,
@@ -97,4 +98,4 @@ const JobStatsChart = ({ data }: Props) => {
     );
 };
 
-export default JobStatsChart;
+export default memo(JobStatsChart);
