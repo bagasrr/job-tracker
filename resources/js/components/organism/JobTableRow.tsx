@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/utils';
 import { Job } from '@/types/table';
 import { useState } from 'react';
 import Button from '../atoms/Button';
@@ -5,15 +6,8 @@ import HighlightText from '../atoms/HighlightText';
 import TableData from '../atoms/TableData';
 import DeleteConfirmationModal from '../molecules/DeleteConfirmationModal';
 import StatusBadge from '../molecules/StatusBadge';
+import JobDetailModalBox from './JobDetailModalBox';
 
-const formatDate = (dateString: string | Date | null | undefined) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('id-ID', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-    });
-};
 // const formattedDate = formatDate({ dateString: new Date(job.applicationDate) });
 
 const JobTableRow = ({
@@ -28,6 +22,7 @@ const JobTableRow = ({
     searchKeyword: string;
 }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showDetailModal, setShowDetailModalOpen] = useState(false);
 
     const handleDeleteConfirm = () => {
         onDelete(job.id_jobs);
@@ -80,7 +75,7 @@ const JobTableRow = ({
                     </svg>
                 </Button>
                 <Button
-                    href={`/jobs/${job.id_jobs}`}
+                    onClick={() => setShowDetailModalOpen(true)}
                     className="border border-indigo-800 bg-indigo-700 text-indigo-200 hover:bg-indigo-500 hover:text-white dark:border-indigo-400 dark:bg-indigo-50/0 dark:text-indigo-400 dark:hover:bg-indigo-600 dark:hover:text-white"
                 >
                     <svg
@@ -118,6 +113,11 @@ const JobTableRow = ({
                         onConfirm={handleDeleteConfirm}
                         jobTitle={job.position}
                         companyName={job.companyName}
+                    />
+                    <JobDetailModalBox
+                        onClose={() => setShowDetailModalOpen(false)}
+                        isVisible={showDetailModal}
+                        data={job}
                     />
                 </div>
             </TableData>
