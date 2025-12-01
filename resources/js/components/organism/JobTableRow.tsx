@@ -49,7 +49,7 @@ const JobTableRow = ({
                 <HighlightText text={job.position} highlight={searchKeyword} />
             </TableData>
             <TableData>{formatDate(job.applicationDate)}</TableData>
-            <TableData>
+            <TableData className="text-center">
                 <StatusBadge status={job.status} />
             </TableData>
             <TableData>
