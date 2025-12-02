@@ -31,7 +31,7 @@ const JobTableRow = ({
 
     return (
         <tr className="group">
-            <td className="sticky left-0 max-w-[40px] min-w-[40px] bg-white p-5 text-center text-sm whitespace-nowrap text-gray-500 transition-colors duration-200 group-hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:group-hover:bg-gray-700">
+            <td className="sticky left-0 max-w-[40px] min-w-[40px] bg-white p-1 text-center text-sm whitespace-nowrap text-gray-500 transition-colors duration-200 group-hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:group-hover:bg-gray-700">
                 {rowNumber}
             </td>
             <TableData className="sticky left-0 max-w-[200px] min-w-[200px] !whitespace-normal md:left-[40px]">

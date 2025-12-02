@@ -4,7 +4,6 @@ import {
     BarChart,
     CartesianGrid,
     Cell,
-    LabelList,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -22,6 +21,64 @@ interface Props {
         SkillTest: number;
     };
 }
+
+const CustomBar = (props: any) => {
+    const { fill, x, y, width, height, name, value } = props;
+
+    // Tentukan batas minimal tinggi agar text muat di dalam
+    const MIN_HEIGHT_FOR_TEXT = 50;
+
+    // Cek: Apakah batang ini cukup tinggi?
+    const isTall = height >= MIN_HEIGHT_FOR_TEXT;
+
+    return (
+        <g>
+            {/* 1. Batang Original (Tanpa manipulasi tinggi palsu) */}
+            <rect
+                x={x}
+                y={y}
+                width={width}
+                height={height}
+                fill={fill}
+                rx={4}
+                ry={4}
+            />
+
+            {/* 2. Logika Text Label (Nama Status) */}
+            <text
+                // Jika Tinggi: Taruh di dalam (bawah batang)
+                // Jika Pendek: Taruh di atas batang
+                x={x + width / 2}
+                y={isTall ? y + height - 10 : y - 10}
+                // Jika Tinggi: Putih, Jika Pendek: Abu-abu (biar kebaca di background gelap)
+                fill={isTall ? '#fff' : '#9ca3af'}
+                textAnchor={isTall ? 'start' : 'start'}
+                dominantBaseline="middle"
+                style={{
+                    fontSize: '10px',
+                    fontWeight: 'bold',
+                }}
+                // Rotasi tetap -90 derajat
+                transform={`rotate(-90, ${x + width / 2}, ${isTall ? y + height - 10 : y - 10})`}
+            >
+                {name}
+            </text>
+
+            {/* 3. Logika Angka Value */}
+            {/* Kalau batang pendek, angkanya kita geser lebih ke atas lagi biar gak numpuk sama text label */}
+            <text
+                x={x + width / 2}
+                y={isTall ? y - 5 : y - name.length * 6 - 15} // Kalkulasi kasar panjang text biar gak numpuk
+                fill="#6b7280"
+                textAnchor="middle"
+                style={{ fontSize: '10px' }}
+            >
+                {value}
+            </text>
+        </g>
+    );
+};
+
 const JobStatsChart = ({ data }: Props) => {
     const chartData = [
         { name: 'Applied', value: data.Applied, color: '#6366F1' },
@@ -51,11 +108,7 @@ const JobStatsChart = ({ data }: Props) => {
                     <XAxis
                         dataKey="name"
                         tick={false}
-                        // tick={{ fill: '#FFFFFF', fontSize: 12 }}
-                        // angle={-45}
-                        // textAnchor="end"
-                        // dy={0}
-                        // height={60}
+                        tickMargin={16}
                         axisLine={false}
                         tickLine={false}
                     />
@@ -64,6 +117,7 @@ const JobStatsChart = ({ data }: Props) => {
                         axisLine={true}
                         tickLine={false}
                         allowDecimals={false} // Agar tidak ada angka koma (1.5 orang)
+                        domain={[0, 'dataMax']} // Beri jarak atas 2 unit
                     />
                     <Tooltip
                         contentStyle={{
@@ -73,11 +127,15 @@ const JobStatsChart = ({ data }: Props) => {
                         }}
                         cursor={{ fill: 'transparent' }}
                     />
-                    <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                    <Bar
+                        dataKey="value"
+                        radius={[4, 4, 0, 0]}
+                        shape={<CustomBar />}
+                    >
                         {chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
-                        <LabelList
+                        {/* <LabelList
                             dataKey="name"
                             position="insideBottom" // Posisi di dasar batang
                             angle={-90} // Putar vertikal biar muat
@@ -90,7 +148,7 @@ const JobStatsChart = ({ data }: Props) => {
                             position="top"
                             fill="#FFFFFF"
                             fontSize={10}
-                        />
+                        /> */}
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>

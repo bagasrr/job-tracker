@@ -4,11 +4,18 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Button from '../atoms/Button';
 import JobTableHead from '../atoms/JobTableHead';
+import Pagination from '../atoms/Pagination';
 import Toast from '../atoms/Toast';
 import JobTableRow from './JobTableRow';
 
 interface JobTableProps {
-    jobs: Job[];
+    // jobs: Job[];
+    jobs: {
+        data: Job[]; // Array aslinya ngumpet disini
+        links: any[];
+        current_page: number; // Opsional, buat penomoran
+        from: number; // Opsional, buat penomoran
+    };
     onDeleteJob: (id: number) => void;
     filters?: {
         search: string;
@@ -16,6 +23,7 @@ interface JobTableProps {
 }
 
 const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
+    console.log(jobs);
     const [search, setSearch] = useState(filters?.search || '');
     useEffect(() => {
         const currentSearch = search || '';
@@ -129,14 +137,14 @@ const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
                         </thead>
 
                         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                            {jobs.length > 0 ? (
-                                jobs.map((job, index) => {
+                            {jobs.data.length > 0 ? (
+                                jobs.data.map((job, index) => {
                                     // LOGIKA PENOMORAN DISINI:
                                     // Cara 1 (Simple): Reset jadi 1 tiap halaman
-                                    const number = index + 1;
+                                    // const number = index + 1;
 
                                     // Cara 2 (Pagination Aware): Lanjut (misal hal 2 mulai dr 11)
-                                    // const number = (currentPage - 1) * itemsPerPage + index + 1;
+                                    const number = (jobs.from || 1) + index;
 
                                     return (
                                         <JobTableRow
@@ -167,6 +175,7 @@ const JobTable = ({ jobs, filters, onDeleteJob }: JobTableProps) => {
                     </table>
                 </div>
             </div>
+            <Pagination links={jobs.links} />
         </div>
     );
 };

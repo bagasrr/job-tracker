@@ -1,14 +1,32 @@
+import { router } from '@inertiajs/react';
 import { memo, useState } from 'react';
 import FilterButton from '../atoms/FilterButton';
 
-const DateFilter = () => {
-    const [activeFilter, setActiveFilter] = useState('30D');
+const DateFilter = ({
+    filters,
+}: {
+    filters?: { search?: string; range?: string };
+}) => {
+    const [activeFilter, setActiveFilter] = useState('All');
     const handleFilterChange = (value: string) => {
         setActiveFilter(value);
         console.log('Filter berubah ke:', value);
-        // Disini nanti kamu bisa panggil fungsi fetch data baru ke API
-        // router.get('/dashboard', { range: value } ...)
+
+        router.get(
+            '/',
+            {
+                search: filters?.search,
+                range: value,
+            },
+            {
+                preserveState: true, // Biar state komponen lain gak hilang
+                preserveScroll: true, // Biar scroll gak loncat ke atas
+                replace: true, // Biar gak menuhin history browser
+                only: ['jobs', 'stats', 'filters'], // Partial reload biar ringan
+            },
+        );
     };
+
     return (
         <div className="flex gap-2">
             {/* TOMBOL 1: 7 Hari */}

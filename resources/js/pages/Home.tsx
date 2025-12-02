@@ -8,19 +8,24 @@ interface IndexProps {
         search: string;
     };
     jobs: {
-        companyName: string;
-        position: string;
-        description: string;
-        applicationPlatform: string;
-        applicationDate: string;
-        status: string;
-        id_jobs: number;
-        notes: string;
-        created_at: Date;
-        updated_at: Date;
-        statusUpdateDate: Date | null;
-        deleted_at: Date | null;
-        user_id: number;
+        data: {
+            companyName: string;
+            position: string;
+            description: string;
+            applicationPlatform: string;
+            applicationDate: string;
+            status: string;
+            id_jobs: number;
+            notes: string;
+            created_at: Date;
+            updated_at: Date;
+            statusUpdateDate: Date | null;
+            deleted_at: Date | null;
+            user_id: number;
+        };
+        links: any[];
+        current_page: number;
+        from: number;
     };
     stats: {
         Applied: number;
@@ -37,7 +42,7 @@ interface IndexProps {
 // 2. Tangkap 'filters' di dalam parameter fungsi (destructuring)
 const HomePage = ({ jobs, filters, stats }: IndexProps) => {
     // Cek di console apakah filters masuk
-    // console.log('Jobs Gwh :', jobs);
+    console.log('Jobs Gwh :', jobs);
     // console.log('Filters dari Laravel:', filters);
     console.info('Stats dari Laravel:', stats);
 
@@ -62,18 +67,18 @@ const HomePage = ({ jobs, filters, stats }: IndexProps) => {
                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                             Total Lamaran
                         </h3>
-                        <DateFilter />
+                        <DateFilter filters={filters} />
                     </div>
 
-                    <p className="mx-auto mt-4 text-3xl font-semibold text-slate-200">
-                        {stats.Total}
+                    <p className="mx-auto mt-7 text-center text-4xl font-semibold text-slate-200 md:text-left md:text-8xl">
+                        {stats.Total}x
                     </p>
                 </div>
             </div>
 
             {/* 3. Sekarang 'filters' sudah ada isinya, aman untuk dikirim ke anak */}
             <JobTable
-                jobs={jobs.data}
+                jobs={jobs}
                 onDeleteJob={handleDelete}
                 filters={filters}
             />
