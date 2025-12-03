@@ -5,9 +5,11 @@ import FilterButton from '../atoms/FilterButton';
 const DateFilter = ({
     filters,
 }: {
-    filters?: { search?: string; range?: string };
+    filters?: { search?: string; dateFilter?: string };
 }) => {
-    const [activeFilter, setActiveFilter] = useState('All');
+    const [activeFilter, setActiveFilter] = useState(
+        filters?.dateFilter || 'All',
+    );
     const handleFilterChange = (value: string) => {
         setActiveFilter(value);
         console.log('Filter berubah ke:', value);
@@ -16,12 +18,12 @@ const DateFilter = ({
             '/',
             {
                 search: filters?.search,
-                range: value,
+                dateFilter: value,
             },
             {
                 preserveState: true, // Biar state komponen lain gak hilang
                 preserveScroll: true, // Biar scroll gak loncat ke atas
-                replace: true, // Biar gak menuhin history browser
+                replace: false, // Biar gak menuhin history browser
                 only: ['jobs', 'stats', 'filters'], // Partial reload biar ringan
             },
         );

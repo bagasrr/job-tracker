@@ -27,12 +27,12 @@ public function index(Request $request)
     }
 
     // 3. Logic FILTER TANGGAL (Baru)
-    if ($request->filled('range') && $request->range !== 'ALL') {
-        $range = $request->range;
+    if ($request->filled('dateFilter') && $request->dateFilter !== 'ALL') {
+        $dateFilter = $request->dateFilter;
         // Tentukan mau filter berdasarkan 'applicationDate' atau 'created_at'
         $dateColumn = 'applicationDate'; 
 
-        switch ($range) {
+        switch ($dateFilter) {
             case '7D':
                 $query->where($dateColumn, '>=', now()->subDays(7));
                 break;
@@ -79,7 +79,7 @@ public function index(Request $request)
         'jobs'    => $jobs,
         'stats'   => $chartData,
         // Kirim balik state filter & search biar UI gak reset
-        'filters' => $request->only(['search', 'range']),
+        'filters' => $request->only(['search', 'dateFilter']),
     ]);
 }
 
