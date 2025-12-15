@@ -11,63 +11,68 @@ use Laravel\Socialite\Socialite;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman login
-   public function showLogin()
-   {
-    return Inertia::render('auth/login');
-   }
-
-    // Proses login manual
-   public function login(Request $request)
-   {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required']
-    ]);
-
-    if (Auth::attempt($credentials)){
-        $request->session()->regenerate();
-        return redirect()->intended('/');
+    // 1. Tampilkan Halaman Login
+    public function showLogin()
+    {
+        return Inertia::render('Auth/Login');
     }
 
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.'
-    ]);
-   }
+    // 2. Proses Login Manual (Email & Password)
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-//    redirect to google for authentication
-   public function redirectToGoogle()
-   {
-    return Socialite::drive('google')->redirect();
-   }
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/');
+        }
 
-   public function handleGoogleCallback()
-   {
-        try{
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
+    }
+
+    // 3. Redirect ke Google
+    public function redirectToGoogle()
+    {
+       
+        return Socialite::driver('google')->redirect();
+    }
+
+    // 4. Callback dari Google (LOGIKA INTI ADA DISINI)
+    public function handleGoogleCallback()
+    {
+        try {
             $googleUser = Socialite::driver('google')->user();
-            // dd($googleUser);
-
+            
             // Cari user berdasarkan Google ID atau Email
-            $user = User::where('google_id', $googleUser->id)       
-                        ->orWhere('email', $googleUser->email)
+            $user = User::where('google_id', $googleUser->getId())
+                        ->orWhere('email', $googleUser->getEmail())
                         ->first();
 
-            if(!$user){
+            if (!$user) {
+                // Jika user belum ada, buat baru (Password NULL dulu)
+
                 $user = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'google_id' => $googleUser->id,
-                    'password' => null,
+                    'google_id' => $googleUser->getId(),
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'password' => null, // Password kosong
+                    'email_verified_at' => now(),
                 ]);
             } else {
-                // update google_id if not set
-                if(!$user->google_id){
-                    $user->google_id = $googleUser->id;
-                    $user->save();
+                // Jika user ada tapi belum punya google_id (misal dulu daftar manual)
+                if (!$user->google_id) {
+                    $user->update(['google_id' => $googleUser->getId()]);
                 }
             }
 
+            // Login User tersebut
             Auth::login($user);
+
             // LOGIKA CEK PASSWORD:
             // Jika password masih NULL, lempar ke halaman Set Password
             if (is_null($user->password)) {
@@ -77,43 +82,38 @@ class AuthController extends Controller
             return redirect()->intended('/');
 
         } catch (\Exception $e) {
-            dd($e);
-            return redirect('/login')->with('error', 'Something went wrong while authenticating with Google.');
+            return redirect()->route('login')->with('error', 'Gagal login dengan Google.');
         }
-   }
-
-   // Tampilkan Form Set Password
-    public function showSetPassword()
-    {
-        return Inertia::render('auth/SetPassword');
     }
 
-    public function setPassword(Request $request)
+    // 5. Tampilkan Form Set Password
+    public function showSetPassword()
+    {
+        return Inertia::render('auth/set-password');
+    }
+
+    // 6. Proses Simpan Password Baru
+    public function storePassword(Request $request)
     {
         $request->validate([
             'password' => 'required|min:8|confirmed',
         ]);
 
+        $user = Auth::user(); // User sudah login via Google tadi
+        
         /** @var \App\Models\User $user */
         $user->update([
             'password' => Hash::make($request->password) // Hashing password
         ]);
 
-       return redirect()->route('home')->with('message', 'Password berhasil dibuat!'); 
+        return redirect()->route('dashboard')->with('message', 'Password berhasil dibuat!');
     }
-
+    
+    // 7. Logout
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-
-    // Menampilkan halaman register
-    public function showRegister()
-    {
-        return Inertia::render('auth/register');
-    }
-
-
 }

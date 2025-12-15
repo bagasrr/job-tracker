@@ -27,6 +27,7 @@ interface IndexProps {
         current_page: number;
         from: number;
     };
+
     stats: {
         Applied: number;
         Interview: number;

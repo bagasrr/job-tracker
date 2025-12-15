@@ -5,9 +5,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobAppController;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('welcome');
+// })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
