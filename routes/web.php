@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobAppController;
+use App\Http\Controllers\Profile\ChangeThemeController;
 
 // Route::get('/', function () {
 //     return Inertia::render('welcome');
@@ -32,5 +33,10 @@ Route::patch('/jobs/{id}/update', [JobAppController::class, 'update'])->name('jo
 Route::delete('/jobs/{id}/delete', [JobAppController::class, 'delete'])->name('jobs.delete');
 
 
+// Route::post('/personalization/set-theme', [ChangeThemeController::class, 'setTheme']);
+
+
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+require __DIR__.'/personalization.php';

@@ -43,21 +43,23 @@ interface IndexProps {
 // 2. Tangkap 'filters' di dalam parameter fungsi (destructuring)
 const HomePage = ({ jobs, filters, stats }: IndexProps) => {
     // Cek di console apakah filters masuk
-    console.log('Jobs Gwh :', jobs);
+    // console.log('Jobs Gwh :', jobs);
     // console.log('Filters dari Laravel:', filters);
-    console.info('Stats dari Laravel:', stats);
+    // console.info('Stats dari Laravel:', stats);
 
     const handleDelete = (id: number) => {
         console.log('Hapus job dengan ID:', id);
         // Logika hit API delete di sini
     };
+    // const { auth } = usePage<SharedData>().props;
+    // console.log(auth.user);
 
     return (
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 lg:px-8">
-            {/* <NavMain items={navbarItems} /> */}
-            <h1 className="text-xl font-bold">Selamat Datang ...</h1>
+            {/* <h1 className="text-xl font-bold">
+                Selamat Datang {auth.user.name}
+            </h1> */}
 
-            {/* BAGIAN CHART */}
             <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
                 {/* Chart ditaruh disini */}
                 <JobStatsChart data={stats} />
