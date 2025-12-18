@@ -19,7 +19,7 @@ const ThemeMode = () => {
                 onSuccess: () => {
                     // Tidak perlu window.location.reload(),
                     // Inertia otomatis merefresh props auth.user.theme
-                    console.log('Tema berhasil diganti!');
+                    console.log('Tema berhasil diganti!', newTheme);
                 },
                 onError: (errors) => {
                     console.log('Gagal ganti tema:', errors);
